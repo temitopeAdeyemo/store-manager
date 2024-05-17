@@ -53,7 +53,7 @@ export default class App {
     this.app.get('/', (request: Request, response: Response) => {
       response.status(200).json({
         success: true,
-        message: 'Welcome To Drone Tech!',
+        message: 'Welcome To store manager!',
       });
     });
 
