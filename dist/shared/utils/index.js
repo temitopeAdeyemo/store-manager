@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.commarisedAmount = exports.minutesToSeconds = exports.generateOTP = exports.generateReferralId = void 0;
+exports.cleanObjectData = exports.commarisedAmount = exports.minutesToSeconds = exports.generateOTP = exports.generateReferralId = void 0;
 const generateReferralId = () => {
     const length = 8;
     const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
@@ -39,3 +39,9 @@ const commarisedAmount = (amount) => {
     return arr.join();
 };
 exports.commarisedAmount = commarisedAmount;
+const cleanObjectData = (obj) => {
+    for (const key in obj)
+        if ( /*obj[key].trim === '' ||*/obj[key] === '' || obj[key] === null || obj[key] === undefined)
+            delete obj[key];
+};
+exports.cleanObjectData = cleanObjectData;

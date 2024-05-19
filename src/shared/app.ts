@@ -5,13 +5,13 @@ import helmet from 'helmet';
 import morganConfig from '../../src/shared/middlewares/morganConfig';
 import 'express-async-errors';
 import environment from '../../src/config/environments.config';
+import mongoSanitize from 'express-mongo-sanitize';
 import errorHandler from '../../src/shared/middlewares/errorHandler';
 import rateLimiter from '../../src/shared/middlewares/rateLimiter';
 import routes from '../../src/shared/routes';
 import JsonResponse from '../../src/shared/utils/AppSuccess';
 import { morganMiddleware, systemLogs } from '../../src/shared/utils/Logger';
 import chalk from 'chalk';
-// import { db } from './database';
 
 export default class App {
   app: express.Application;
@@ -23,6 +23,7 @@ export default class App {
     this.app.use(cors);
     this.app.options('*', cors);
     this.app.use(helmet());
+        this.app.use(mongoSanitize());
 
     this.app.use(express.json());
     this.app.use(rateLimiter);
@@ -44,9 +45,9 @@ export default class App {
         message: 'Endpoint not found.',
       });
     });
-    process.on('SIGINT', () => {
-      process.exit();
-    });
+    // process.on('SIGINT', () => {
+    //   process.exit();
+    // });
   }
 
   setRoutes() {

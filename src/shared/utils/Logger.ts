@@ -1,6 +1,7 @@
 import morgan from 'morgan';
 import { createLogger, format, transports } from 'winston';
 import 'winston-daily-rotate-file';
+import fs from 'fs';
 
 const { combine, timestamp, prettyPrint } = format;
 
@@ -10,23 +11,25 @@ const fileRotateTransport = new transports.DailyRotateFile({
   maxFiles: '14d',
 });
 
-export const systemLogs = createLogger({
-  level: 'http',
+const systemLog = (userEmail?: string) => {
+  if (userEmail)
+    fs.mkdir(__dirname + `logs/${userEmail}/exceptions.log`, (err: NodeJS.ErrnoException | null) => {
+      err ? console.error(err) : null;
+    });
 
-  format: combine(
-    timestamp({ format: 'YYYY-MM-DD HH:mm:ss.SSS A' }),
-    prettyPrint()
-  ),
+  return createLogger({
+    level: 'http',
 
-  transports: [
-    fileRotateTransport,
-    new transports.File({ filename: 'logs/error.log', level: 'error' }),
-  ],
+    format: combine(timestamp({ format: 'YYYY-MM-DD HH:mm:ss.SSS A' }), prettyPrint()),
 
-  exceptionHandlers: [new transports.File({ filename: 'logs/exceptions.log' })],
-  rejectionHandlers: [new transports.File({ filename: 'logs/rejections.log' })],
-});
+    transports: [fileRotateTransport, new transports.File({ filename: 'logs/error.log', level: 'error' })],
 
+    exceptionHandlers: [new transports.File({ filename: userEmail ? `logs/${userEmail}/exceptions.log` : 'logs/exceptions.log' })],
+    rejectionHandlers: [new transports.File({ filename: userEmail ? `logs/${userEmail}/rejections.log` : 'logs/rejections.log' })],
+  });
+};
+
+export const systemLogs =  systemLog();
 export const morganMiddleware = morgan(
   function (tokens, req, res) {
     return JSON.stringify({
@@ -41,7 +44,7 @@ export const morganMiddleware = morgan(
     stream: {
       write: (message) => {
         const data = JSON.parse(message);
-        systemLogs.http(`incoming-request`, data);
+        systemLog().http(`incoming-request`, data);
       },
     },
   }

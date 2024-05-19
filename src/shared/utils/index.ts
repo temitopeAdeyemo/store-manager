@@ -33,3 +33,7 @@ export const commarisedAmount = (amount: string) => {
   }
   return arr.join();
 };
+
+export const cleanObjectData = (obj: any) => {
+  for (const key in obj) if (/*obj[key].trim === '' ||*/ obj[key] === '' || obj[key] === null || obj[key] === undefined) delete obj[key];
+};

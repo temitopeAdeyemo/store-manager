@@ -4,16 +4,31 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const celebrate_1 = require("celebrate");
-// import { AxiosError, isAxiosError } from 'axios';
 const AppError_1 = __importDefault(require("../utils/AppError"));
-// import { MulterError } from 'multer';
-// import { BaseError, QueryError, ValidationError } from 'sequelize';
+const Logger_1 = require("../utils/Logger");
+const jsonwebtoken_1 = require("jsonwebtoken");
 function errorHandler(error, request, response, _) {
     console.log(error);
+    Logger_1.systemLogs.error(error);
     if (error instanceof AppError_1.default) {
         return response.status(error.statusCode).json({
             success: false,
             message: error.message,
+            data: null,
+        });
+    }
+    if (error.name == 'MongooseError') {
+        console.log('MONGOOSE ERROR:::::::::::::::::::::::::::::::::::::: ');
+        return response.status(400).json({
+            success: false,
+            message: error.message,
+            data: null,
+        });
+    }
+    if (error instanceof jsonwebtoken_1.JsonWebTokenError) {
+        return response.status(401).json({
+            success: false,
+            message: 'Token invalid',
             data: null,
         });
     }

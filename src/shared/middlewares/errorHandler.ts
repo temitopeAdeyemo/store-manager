@@ -1,16 +1,35 @@
 import { Request, Response, NextFunction } from 'express';
 import { CelebrateError } from 'celebrate';
-// import { AxiosError, isAxiosError } from 'axios';
 import AppError from '../utils/AppError';
-// import { MulterError } from 'multer';
-// import { BaseError, QueryError, ValidationError } from 'sequelize';
+import { MongooseError } from 'mongoose';
+import { systemLogs } from '../utils/Logger';
+import { JsonWebTokenError } from 'jsonwebtoken';
 
 export default function errorHandler(error: Error, request: Request, response: Response, _: NextFunction): Response {
   console.log(error);
+  systemLogs.error(error);
+
   if (error instanceof AppError) {
     return response.status(error.statusCode).json({
       success: false,
       message: error.message,
+      data: null,
+    });
+  }
+
+  if (error.name == 'MongooseError') {
+    console.log('MONGOOSE ERROR:::::::::::::::::::::::::::::::::::::: ' );
+    return response.status(400).json({
+      success: false,
+      message: error.message,
+      data: null,
+    });
+  }
+
+  if (error instanceof JsonWebTokenError) {
+    return response.status(401).json({
+      success: false,
+      message: 'Token invalid',
       data: null,
     });
   }

@@ -9,13 +9,13 @@ const helmet_1 = __importDefault(require("helmet"));
 const morganConfig_1 = __importDefault(require("../../src/shared/middlewares/morganConfig"));
 require("express-async-errors");
 const environments_config_1 = __importDefault(require("../../src/config/environments.config"));
+const express_mongo_sanitize_1 = __importDefault(require("express-mongo-sanitize"));
 const errorHandler_1 = __importDefault(require("../../src/shared/middlewares/errorHandler"));
 const rateLimiter_1 = __importDefault(require("../../src/shared/middlewares/rateLimiter"));
 const routes_1 = __importDefault(require("../../src/shared/routes"));
 const AppSuccess_1 = __importDefault(require("../../src/shared/utils/AppSuccess"));
 const Logger_1 = require("../../src/shared/utils/Logger");
 const chalk_1 = __importDefault(require("chalk"));
-// import { db } from './database';
 class App {
     constructor() {
         this.app = (0, express_1.default)();
@@ -25,6 +25,7 @@ class App {
         this.app.use(corsOptions_1.default);
         this.app.options('*', corsOptions_1.default);
         this.app.use((0, helmet_1.default)());
+        this.app.use((0, express_mongo_sanitize_1.default)());
         this.app.use(express_1.default.json());
         this.app.use(rateLimiter_1.default);
         this.setRoutes();
@@ -41,15 +42,15 @@ class App {
                 message: 'Endpoint not found.',
             });
         });
-        process.on('SIGINT', () => {
-            process.exit();
-        });
+        // process.on('SIGINT', () => {
+        //   process.exit();
+        // });
     }
     setRoutes() {
         this.app.get('/', (request, response) => {
             response.status(200).json({
                 success: true,
-                message: 'Welcome To Drone Tech!',
+                message: 'Welcome To store manager!',
             });
         });
         this.app.use('/api/v1', routes_1.default);

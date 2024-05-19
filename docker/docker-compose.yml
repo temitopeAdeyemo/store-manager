@@ -1,0 +1,25 @@
+version: "3.8"
+
+services:
+  api:
+    build:
+      context: ../
+      dockerfile: docker/dev/Dockerfile
+    container_name: store-manager-api
+    image: store-manager
+    ports:
+      - "3000:3000"
+    env_file:
+      - ../.env
+    volumes:
+      - ../:/app
+      - /app/node_modules
+    networks:
+      - store-manager-network
+
+volumes:
+  store-manager-dev-db:
+
+networks:
+  store-manager-network:
+    driver: bridge

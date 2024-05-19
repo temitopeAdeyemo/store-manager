@@ -1,12 +1,17 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.jsonResponse = void 0;
 class JsonResponse {
-    build(statusCode, message, data = null) {
-        this.data = { success: true, message, data };
+    constructor(statusCode, message, data = null) {
         this.statusCode = statusCode;
-        return this;
+        this.success = true;
+        this.message = message;
+        this.data = { ...data };
+        // this.k()
+        // return this;
+    }
+    k(req, res) {
+        return res.status(200).json(this);
     }
 }
 exports.default = JsonResponse;
-exports.jsonResponse = new JsonResponse();
+// export const jsonResponse = new JsonResponse();
