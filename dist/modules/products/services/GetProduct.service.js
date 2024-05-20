@@ -12,9 +12,13 @@ class GetProductService {
         this.productRepository = new ProductRepository_1.default();
     }
     async fetchOne(dataField, value) {
-        const product = await this.productRepository.findByUniqueData(dataField, value);
+        const product = await this.productRepository.findByUniqueData(dataField, value, ['uploaded_by', 'category']);
         if (!product)
             throw new AppError_1.default(constants_1.default.CATEGORY_NOT_FOUND, http_status_codes_1.StatusCodes.BAD_REQUEST);
+        if (product._doc) {
+            const cr = product._doc.uploaded_by;
+            cr.authorization_token = '';
+        }
         return product._doc;
     }
     async fetchAll(filter) {

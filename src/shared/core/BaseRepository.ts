@@ -1,4 +1,4 @@
-import { Document, FilterQuery, Model } from 'mongoose';
+import { Document, FilterQuery, HydratedDocument, Model, UnpackedIntersection } from 'mongoose';
 import { cleanObjectData } from '../utils';
 
 /**
@@ -8,11 +8,12 @@ import { cleanObjectData } from '../utils';
  */
 export default abstract class BaseRepository<SchemaModel, CreateDataDTO, E = ''> {
   private model;
+
   constructor(SchemaModel: Model<SchemaModel, {}, {}, {}, any>) {
     this.model = SchemaModel;
   }
 
-  async create(data: CreateDataDTO) {
+  async create(data: CreateDataDTO): Promise<SchemaModel> {
     const result = await this.model.create(data);
     return result;
   }
@@ -21,19 +22,26 @@ export default abstract class BaseRepository<SchemaModel, CreateDataDTO, E = ''>
     await model.save();
   }
 
-  async findByUniqueData(field: E | '_id', value: string, populateData?: string | string[]) {
+  async findByUniqueData(
+    field: E | '_id',
+    value: string,
+    populateData?: string | string[]
+  ): Promise<UnpackedIntersection<HydratedDocument<SchemaModel, {}, {}>, {}> | null> {
     const filter: any = {};
     filter[field] = value;
+    cleanObjectData(filter);
 
     const result = await this.model.findOne(filter).populate(populateData as string | string[]);
-    
+    // if(result) result.
     return result;
   }
 
   async fetchAll(data?: FilterQuery<SchemaModel>, populateData?: string | string[]) {
     const filter = data || {};
+    cleanObjectData(filter);
 
     const results = await this.model.find(filter).populate(populateData as string | string[]);
+
     return results;
   }
 
@@ -47,6 +55,12 @@ export default abstract class BaseRepository<SchemaModel, CreateDataDTO, E = ''>
 
   async deleteById(_id: string): Promise<void> {
     await this.model.deleteOne({ _id });
+
+    return;
+  }
+
+  async deleteMany(): Promise<void> {
+    await this.model.deleteMany({});
 
     return;
   }

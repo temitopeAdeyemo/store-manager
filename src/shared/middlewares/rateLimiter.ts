@@ -17,23 +17,23 @@ const redisClient = new Redis({
 });
 
 redisClient.on('end', () => {
-  console.log('Redis ended');
+  if (config.nodeEnv != 'test') console.log('Redis ended');
 });
 redisClient.on('error', () => {
-  console.log('Redis Error');
+  if (config.nodeEnv != 'test') console.log('Redis Error');
 });
 redisClient.on('SIGINT', () => {
-  console.log('SIGINT ERR');
+  if (config.nodeEnv != 'test') console.log('SIGINT ERR');
 });
 
 export default async function rateLimiter(request: Request, response: Response, next: NextFunction): Promise<void> {
   let key: any;
   let controlledPath = ['/create', '/update', '/reset', '/login', '/register'];
   let isControlledPath = false;
-  
+
   try {
     const limiter = new RateLimiterRedis({
-      points: 5,
+      points: config.nodeEnv == 'test' ? 50 : 5,
       duration: 2,
       storeClient: redisClient,
     });
@@ -46,7 +46,7 @@ export default async function rateLimiter(request: Request, response: Response, 
       if (request.path.includes(path)) {
         console.log('HITTING CONTROLLED ENDPOINT...');
         isControlledPath = true;
-        limiter.points = 2;
+        limiter.points = config.nodeEnv == 'test' ? 50 : 2;
         limiter.duration = 2;
 
         await limiter.consume(`trans-${path}-${key}`);
@@ -67,3 +67,5 @@ export default async function rateLimiter(request: Request, response: Response, 
     throw new AppError(`System busy, Try again in a moment.`, 429);
   }
 }
+
+export { redisClient };

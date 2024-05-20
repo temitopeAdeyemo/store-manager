@@ -7,13 +7,13 @@ import constants from '../../../shared/utils/constants';
 
 class UpdateCategory {
   async update(req: Request, res: Response): Promise<Response> {
-    const { id } = req.params;
+    const { category_id } = req.params;
 
     const { category_code, category_name, discount } = req.body as IUpdateCategoryDTO;
 
-    await new UpdateCategoryService().execute(id, { category_code, category_name, discount });
+    await new UpdateCategoryService().execute(category_id, { category_code, category_name, discount });
 
-    return res.status(StatusCodes.OK).json(new JsonResponse(StatusCodes.OK, constants.CATEGORY_UPDATED_SUCCESSFULLY, { id }));
+    return res.status(StatusCodes.OK).json(new JsonResponse(StatusCodes.OK, constants.CATEGORY_UPDATED_SUCCESSFULLY));
   }
 }
 

@@ -12,8 +12,8 @@ const updateProduct_validator_1 = __importDefault(require("../validators/updateP
 const getProduct_validator_1 = require("../validators/getProduct.validator");
 const router = (0, express_1.Router)();
 router.post('/create', createProduct_validator_1.default, auth_1.default, controllers_1.createProduct.create);
-router.delete('/delete', deleteProduct_validator_1.default, auth_1.default, controllers_1.deleteProduct.delete);
-router.patch('/update', updateProduct_validator_1.default, auth_1.default, controllers_1.updateProduct.update);
+router.delete('/delete/:product_id', deleteProduct_validator_1.default, auth_1.default, controllers_1.deleteProduct.delete);
+router.patch('/update/:product_id', updateProduct_validator_1.default, auth_1.default, controllers_1.updateProduct.update);
 router.get('/single', getProduct_validator_1.getOneValidator, auth_1.default, controllers_1.getProduct.fetchOne);
 router.get('/all', getProduct_validator_1.getManyValidator, auth_1.default, controllers_1.getProduct.fetchAll);
 exports.default = router;

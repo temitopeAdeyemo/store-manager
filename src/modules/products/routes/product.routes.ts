@@ -9,8 +9,8 @@ import { getManyValidator, getOneValidator } from '../validators/getProduct.vali
 const router = Router();
 
 router.post('/create', createProductValidator, auth, createProduct.create);
-router.delete('/delete', deleteProductValidator, auth, deleteProduct.delete);
-router.patch('/update', updateProductValidator, auth, updateProduct.update);
+router.delete('/delete/:product_id', deleteProductValidator, auth, deleteProduct.delete);
+router.patch('/update/:product_id', updateProductValidator, auth, updateProduct.update);
 router.get('/single', getOneValidator, auth, getProduct.fetchOne);
 router.get('/all', getManyValidator, auth, getProduct.fetchAll);
 

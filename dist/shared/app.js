@@ -16,10 +16,10 @@ const routes_1 = __importDefault(require("../../src/shared/routes"));
 const AppSuccess_1 = __importDefault(require("../../src/shared/utils/AppSuccess"));
 const Logger_1 = require("../../src/shared/utils/Logger");
 const chalk_1 = __importDefault(require("chalk"));
+require("express-async-errors");
 class App {
     constructor() {
         this.app = (0, express_1.default)();
-        // this.syncDb();
         this.app.use(morganConfig_1.default);
         this.app.use(Logger_1.morganMiddleware);
         this.app.use(corsOptions_1.default);
@@ -42,9 +42,9 @@ class App {
                 message: 'Endpoint not found.',
             });
         });
-        // process.on('SIGINT', () => {
-        //   process.exit();
-        // });
+        process.on('SIGINT', () => {
+            process.exit();
+        });
     }
     setRoutes() {
         this.app.get('/', (request, response) => {

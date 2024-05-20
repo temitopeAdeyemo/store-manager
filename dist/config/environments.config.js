@@ -9,6 +9,7 @@ exports.default = {
     port: process.env.PORT || '',
     nodeEnv: process.env.NODE_ENV || '',
     dburl: process.env.DB_URL || '',
+    testdburl: process.env.TEST_DB_URL || '',
     redisHost: process.env.REDIS_HOST,
     redisPassword: process.env.REDIS_PASSWORD,
     redisPort: Number(process.env.REDIS_PORT),

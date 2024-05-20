@@ -13,11 +13,9 @@ export default celebrate({
     amount: Joi.number().positive().required(),
     discount: Joi.string()
       .pattern(/^[0-9]+$/)
-      .message('Discount values can only be number.')
-      .required(),
-    category: Joi.string()
-      .pattern(/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i)
-      .message('Invalid category')
-      .required(),
+      .message('Discount values can only be number.'),
+    category: Joi.string().required(),
+    quantity: Joi.string().required(),
+    images: Joi.string(),
   }),
 });

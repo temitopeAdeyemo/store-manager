@@ -1,15 +1,16 @@
 1. Index db
-2. hash password
-3. Do logger
-4. Use Rate Limiter
-5. Use Mongo Sanitiser
+2. ************************* hash password 
+3. Do logger everywher in key points
+4. ************************* Use Rate Limiter
+5. ************************* Use Mongo Sanitiser
 6. Clear Logs
-7. Fetch all uploaded product by an admin
+7. ************************* Fetch all uploaded product by an admin
 8. Ignore .env in your docker ignore and make sure / check it is ignored.
 9. Paginate
-10. Correct all validation message.
-11. Make sure to always use req.user for uploader and createdBy.
-12. Test Rate limiter
+10. Add data to product data
+10. ************************* Correct all validation message.
+11. ************************* Make sure to always use req.user for uploader and createdBy.
+12. ************************* Test Rate limiter
 12. Include How rate limiter works in your readme
 13. Check all validation messages and correct regex pattern
 5. Note all above in documentation

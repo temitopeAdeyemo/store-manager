@@ -3,6 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.redisClient = void 0;
 const rate_limiter_flexible_1 = require("rate-limiter-flexible");
 const ip_1 = __importDefault(require("ip"));
 const AppError_1 = __importDefault(require("../../shared/utils/AppError"));
@@ -18,14 +19,18 @@ const redisClient = new ioredis_1.default({
     connectTimeout: 30 * 1000,
     name: 'REDIS_RATE_LIMITER',
 });
+exports.redisClient = redisClient;
 redisClient.on('end', () => {
-    console.log('Redis ended');
+    if (environments_config_1.default.nodeEnv != 'test')
+        console.log('Redis ended');
 });
 redisClient.on('error', () => {
-    console.log('Redis Error');
+    if (environments_config_1.default.nodeEnv != 'test')
+        console.log('Redis Error');
 });
 redisClient.on('SIGINT', () => {
-    console.log('SIGINT ERR');
+    if (environments_config_1.default.nodeEnv != 'test')
+        console.log('SIGINT ERR');
 });
 async function rateLimiter(request, response, next) {
     let key;
@@ -33,7 +38,7 @@ async function rateLimiter(request, response, next) {
     let isControlledPath = false;
     try {
         const limiter = new rate_limiter_flexible_1.RateLimiterRedis({
-            points: 5,
+            points: environments_config_1.default.nodeEnv == 'test' ? 50 : 5,
             duration: 2,
             storeClient: redisClient,
         });
@@ -44,7 +49,7 @@ async function rateLimiter(request, response, next) {
             if (request.path.includes(path)) {
                 console.log('HITTING CONTROLLED ENDPOINT...');
                 isControlledPath = true;
-                limiter.points = 2;
+                limiter.points = environments_config_1.default.nodeEnv == 'test' ? 50 : 2;
                 limiter.duration = 2;
                 await limiter.consume(`trans-${path}-${key}`);
                 return next();

@@ -30,12 +30,9 @@ const UserSchema: Schema = new Schema<IUser>(
   }
 );
 
-UserSchema.methods.toJSON = function () {
-  const user = this.toObject();
-  delete user.password;
-  delete user.__v;
-  return user;
-};
+UserSchema.index({ id: 1 });
+UserSchema.index({ email: 1 });
+UserSchema.index({ email_verified: 1 });
 
 export default interface IUserModel extends IUser, Document<string | Object> {}
 export const User = model<IUserModel>('User', UserSchema);

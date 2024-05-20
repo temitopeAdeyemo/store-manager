@@ -5,12 +5,11 @@ import { StatusCodes } from 'http-status-codes';
 import constants from '../../../shared/utils/constants';
 
 class DeleteProduct {
-  private deleteProductService: DeleteProductService = new DeleteProductService();
 
   async delete(req: Request, res: Response): Promise<Response> {
-    const { id } = req.params;
+    const { product_id } = req.params;
 
-    await this.deleteProductService.execute(id);
+    await new DeleteProductService().execute(product_id);
 
     return res.status(StatusCodes.OK).json(new JsonResponse(StatusCodes.OK, constants.PRODUCT_DELETED_SUCCESSFULLY));
   }

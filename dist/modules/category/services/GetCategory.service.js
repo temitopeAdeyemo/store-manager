@@ -12,14 +12,18 @@ class GetCategoryService {
         this.categoryRepository = new CategoryRepository_1.default();
     }
     async fetchOne(dataField, value) {
-        const product = await this.categoryRepository.findByUniqueData(dataField, value);
-        if (!product)
+        const category = await this.categoryRepository.findByUniqueData(dataField, value, 'created_by');
+        if (!category)
             throw new AppError_1.default(constants_1.default.CATEGORY_NOT_FOUND, http_status_codes_1.StatusCodes.BAD_REQUEST);
-        return product._doc;
+        if (category._doc) {
+            const cr = category._doc.created_by;
+            cr.authorization_token = '';
+        }
+        return category._doc;
     }
     async fetchAll(filter) {
-        const products = await this.categoryRepository.fetchAll(filter);
-        return products;
+        const categories = await this.categoryRepository.fetchAll(filter);
+        return categories;
     }
 }
 exports.default = GetCategoryService;

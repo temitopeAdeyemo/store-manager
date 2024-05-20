@@ -14,11 +14,9 @@ exports.default = (0, celebrate_1.celebrate)({
         amount: celebrate_1.Joi.number().positive().required(),
         discount: celebrate_1.Joi.string()
             .pattern(/^[0-9]+$/)
-            .message('Discount values can only be number.')
-            .required(),
-        category: celebrate_1.Joi.string()
-            .pattern(/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i)
-            .message('Invalid category')
-            .required(),
+            .message('Discount values can only be number.'),
+        category: celebrate_1.Joi.string().required(),
+        quantity: celebrate_1.Joi.string().required(),
+        images: celebrate_1.Joi.string(),
     }),
 });

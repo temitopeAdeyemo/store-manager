@@ -6,9 +6,9 @@ import constants from '../../../shared/utils/constants';
 
 class DeleteCategory {
   async delete(req: Request, res: Response): Promise<Response> {
-    const { id } = req.params;
+    const { category_id } = req.params;
 
-    await new DeleteCategoryService().execute(id);
+    await new DeleteCategoryService().execute(category_id);
 
     return res.status(StatusCodes.OK).json(new JsonResponse(StatusCodes.OK, constants.CATEGORY_DELETED_SUCCESSFULLY));
   }

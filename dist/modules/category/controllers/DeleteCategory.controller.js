@@ -9,8 +9,8 @@ const http_status_codes_1 = require("http-status-codes");
 const constants_1 = __importDefault(require("../../../shared/utils/constants"));
 class DeleteCategory {
     async delete(req, res) {
-        const { id } = req.params;
-        await new services_1.DeleteCategoryService().execute(id);
+        const { category_id } = req.params;
+        await new services_1.DeleteCategoryService().execute(category_id);
         return res.status(http_status_codes_1.StatusCodes.OK).json(new AppSuccess_1.default(http_status_codes_1.StatusCodes.OK, constants_1.default.CATEGORY_DELETED_SUCCESSFULLY));
     }
 }

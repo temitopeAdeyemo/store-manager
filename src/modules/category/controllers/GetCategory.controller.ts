@@ -21,7 +21,7 @@ class GetCategory {
 
     const categories = await new GetCategoryService().fetchAll({ category_name, created_by });
 
-    return res.status(StatusCodes.OK).json(new JsonResponse(StatusCodes.OK, constants.CATEGORIES_FETCHED_SUCCESSFULLY, categories));
+    return res.status(StatusCodes.OK).json(new JsonResponse(StatusCodes.OK, constants.CATEGORIES_FETCHED_SUCCESSFULLY, {categories}));
   }
 }
 

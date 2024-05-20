@@ -12,18 +12,18 @@ import routes from '../../src/shared/routes';
 import JsonResponse from '../../src/shared/utils/AppSuccess';
 import { morganMiddleware, systemLogs } from '../../src/shared/utils/Logger';
 import chalk from 'chalk';
+import 'express-async-errors';
 
 export default class App {
   app: express.Application;
   constructor() {
     this.app = express();
-    // this.syncDb();
     this.app.use(morganConfig);
     this.app.use(morganMiddleware);
     this.app.use(cors);
     this.app.options('*', cors);
     this.app.use(helmet());
-        this.app.use(mongoSanitize());
+    this.app.use(mongoSanitize());
 
     this.app.use(express.json());
     this.app.use(rateLimiter);
@@ -39,15 +39,17 @@ export default class App {
     });
 
     this.app.use(errorHandler);
+
     this.app.use((request: Request, response: Response) => {
       return response.status(404).json({
         success: true,
         message: 'Endpoint not found.',
       });
     });
-    // process.on('SIGINT', () => {
-    //   process.exit();
-    // });
+
+    process.on('SIGINT', () => {
+      process.exit();
+    });
   }
 
   setRoutes() {
@@ -68,11 +70,7 @@ export default class App {
   listen() {
     const { port } = environment;
     this.app.listen(port, () => {
-      console.log(
-        `${chalk.green.bold('✓')} 👍 Server running on ${chalk.yellow.bold(
-          process.env.NODE_ENV
-        )} mode on port ${chalk.yellow.blue(port)}`
-      );
+      console.log(`${chalk.green.bold('✓')} 👍 Server running on ${chalk.yellow.bold(process.env.NODE_ENV)} mode on port ${chalk.yellow.blue(port)}`);
       systemLogs.info(`Server running on ${process.env.NODE_ENV} mode on port ${port}`);
     });
   }

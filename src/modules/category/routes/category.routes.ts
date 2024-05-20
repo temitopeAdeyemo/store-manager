@@ -9,8 +9,8 @@ import { getManyValidator, getOneValidator } from '../validators/getCategory.val
 const router = Router();
 
 router.post('/create', createCategoryValidator, auth, createCategory.create);
-router.delete('/delete', deleteCategoryValidator, auth, deleteCategory.delete);
-router.patch('/update', updateCategoryValidator, auth, updateCategory.update);
+router.delete('/delete/:category_id', deleteCategoryValidator, auth, deleteCategory.delete);
+router.patch('/update/:category_id', updateCategoryValidator, auth, updateCategory.update);
 router.get('/single', getOneValidator, auth, getCategory.fetchOne);
 router.get('/all', getManyValidator, auth, getCategory.fetchAll);
 

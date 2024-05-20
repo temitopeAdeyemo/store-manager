@@ -16,7 +16,7 @@ class GetCategory {
     async fetchAll(req, res) {
         const { category_name, created_by } = req.query;
         const categories = await new services_1.GetCategoryService().fetchAll({ category_name, created_by });
-        return res.status(http_status_codes_1.StatusCodes.OK).json(new AppSuccess_1.default(http_status_codes_1.StatusCodes.OK, constants_1.default.CATEGORIES_FETCHED_SUCCESSFULLY, categories));
+        return res.status(http_status_codes_1.StatusCodes.OK).json(new AppSuccess_1.default(http_status_codes_1.StatusCodes.OK, constants_1.default.CATEGORIES_FETCHED_SUCCESSFULLY, { categories }));
     }
 }
 exports.default = new GetCategory();

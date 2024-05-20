@@ -32,6 +32,8 @@
     "./*.js",
     "dist",
     "docker",
-    "./src/shared/**/migrations/*.ts"
+    "./src/shared/**/migrations/*.ts",
+    "**/*.test.ts",
+    "**/*.spec.ts"
   ]
 }

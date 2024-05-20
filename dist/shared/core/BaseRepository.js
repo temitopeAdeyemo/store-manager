@@ -20,11 +20,14 @@ class BaseRepository {
     async findByUniqueData(field, value, populateData) {
         const filter = {};
         filter[field] = value;
+        (0, utils_1.cleanObjectData)(filter);
         const result = await this.model.findOne(filter).populate(populateData);
+        // if(result) result.
         return result;
     }
     async fetchAll(data, populateData) {
         const filter = data || {};
+        (0, utils_1.cleanObjectData)(filter);
         const results = await this.model.find(filter).populate(populateData);
         return results;
     }
@@ -35,6 +38,10 @@ class BaseRepository {
     }
     async deleteById(_id) {
         await this.model.deleteOne({ _id });
+        return;
+    }
+    async deleteMany() {
+        await this.model.deleteMany({});
         return;
     }
 }
