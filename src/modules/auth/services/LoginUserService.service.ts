@@ -5,6 +5,7 @@ import PasswordHashService from '../../../shared/service/PasswordHashService';
 import ILoginUser from '../dtos/ILoginDto';
 import JwtClient from '../../../shared/service/JWT';
 import constants from '../../../shared/utils/constants';
+import { systemLogs } from '../../../shared/utils/Logger';
 
 export default class LoginUserService {
   private userRepository: UserRepository = new UserRepository();
@@ -23,6 +24,8 @@ export default class LoginUserService {
     const accessToken = this.jwtClient.generateAccessToken({ id: emailExists._id, email: data.email });
 
     await this.userRepository.updateById(emailExists._id as string, { authorization_token: accessToken });
+
+    systemLogs(data.email).info("Logged in successfully.")
 
     return { access_token: accessToken };
   }

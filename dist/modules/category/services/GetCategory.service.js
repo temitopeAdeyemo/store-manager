@@ -21,8 +21,8 @@ class GetCategoryService {
         }
         return category._doc;
     }
-    async fetchAll(filter) {
-        const categories = await this.categoryRepository.fetchAll(filter);
+    async fetchAll(filter, page, size) {
+        const categories = await this.categoryRepository.fetchAll(filter, page, size);
         return categories;
     }
 }

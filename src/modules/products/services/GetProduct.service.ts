@@ -21,8 +21,8 @@ class GetProductService {
     return product._doc;
   }
 
-  async fetchAll(filter: Partial<fetchProductsFilter>) {
-    const products = await this.productRepository.fetchAll(filter);
+  async fetchAll(filter: Partial<fetchProductsFilter>, page?: string, size?: string) {
+    const products = await this.productRepository.fetchAll(filter, page, size);
 
     return products;
   }

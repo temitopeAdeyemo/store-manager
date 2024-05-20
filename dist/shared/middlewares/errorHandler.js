@@ -9,7 +9,7 @@ const Logger_1 = require("../utils/Logger");
 const jsonwebtoken_1 = require("jsonwebtoken");
 function errorHandler(error, request, response, _) {
     console.log(error);
-    Logger_1.systemLogs.error(error);
+    Logger_1.systemLogs.bind(Logger_1.systemLogs)().error(error);
     if (error instanceof AppError_1.default) {
         return response.status(error.statusCode).json({
             success: false,

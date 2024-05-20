@@ -22,13 +22,22 @@ class BaseRepository {
         filter[field] = value;
         (0, utils_1.cleanObjectData)(filter);
         const result = await this.model.findOne(filter).populate(populateData);
-        // if(result) result.
         return result;
     }
-    async fetchAll(data, populateData) {
+    async fetchAll(data, page, size, populateData) {
         const filter = data || {};
         (0, utils_1.cleanObjectData)(filter);
-        const results = await this.model.find(filter).populate(populateData);
+        console.log(page, size);
+        // page = page ? Number(page) : 1;
+        // size = size ? Number(size) : 5;
+        const results = await this.model
+            .find(filter)
+            .limit(Number(size) || 5)
+            .skip((Number(page) - 1) * Number(size))
+            .sort({
+            name: 'asc',
+        })
+            .populate(populateData);
         return results;
     }
     async updateById(_id, updateData) {

@@ -22,8 +22,8 @@ class GetCategoryService {
     return category._doc;
   }
 
-  async fetchAll(filter: Partial<fetchCategoriesFilter>) {
-    const categories = await this.categoryRepository.fetchAll(filter);
+  async fetchAll(filter: Partial<fetchCategoriesFilter>, page?: string, size?: string) {
+    const categories = await this.categoryRepository.fetchAll(filter, page, size);
 
     return categories;
   }

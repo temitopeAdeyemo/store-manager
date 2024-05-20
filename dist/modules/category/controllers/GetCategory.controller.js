@@ -14,8 +14,8 @@ class GetCategory {
         return res.status(http_status_codes_1.StatusCodes.OK).json(new AppSuccess_1.default(http_status_codes_1.StatusCodes.OK, constants_1.default.CATEGORY_FETCHED_SUCCESSFULLY, category));
     }
     async fetchAll(req, res) {
-        const { category_name, created_by } = req.query;
-        const categories = await new services_1.GetCategoryService().fetchAll({ category_name, created_by });
+        const { category_name, created_by, page, size } = req.query;
+        const categories = await new services_1.GetCategoryService().fetchAll({ category_name, created_by }, page, size);
         return res.status(http_status_codes_1.StatusCodes.OK).json(new AppSuccess_1.default(http_status_codes_1.StatusCodes.OK, constants_1.default.CATEGORIES_FETCHED_SUCCESSFULLY, { categories }));
     }
 }

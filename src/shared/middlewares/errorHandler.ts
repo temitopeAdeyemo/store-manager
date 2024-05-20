@@ -7,7 +7,7 @@ import { JsonWebTokenError } from 'jsonwebtoken';
 
 export default function errorHandler(error: Error, request: Request, response: Response, _: NextFunction): Response {
   console.log(error);
-  systemLogs.error(error);
+  systemLogs.bind(systemLogs)().error(error);
 
   if (error instanceof AppError) {
     return response.status(error.statusCode).json({

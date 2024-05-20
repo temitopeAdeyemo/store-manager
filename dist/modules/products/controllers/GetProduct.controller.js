@@ -14,8 +14,8 @@ class GetProduct {
         return res.status(http_status_codes_1.StatusCodes.OK).json(new AppSuccess_1.default(http_status_codes_1.StatusCodes.OK, constants_1.default.CATEGORY_FETCHED_SUCCESSFULLY, product));
     }
     async fetchAll(req, res) {
-        const { product_name, uploaded_by, category, amount, discount } = req.query;
-        const products = await new services_1.GetProductService().fetchAll({ product_name, uploaded_by, category, amount, discount });
+        const { product_name, uploaded_by, category, amount, discount, page, size } = req.query;
+        const products = await new services_1.GetProductService().fetchAll({ product_name, uploaded_by, category, amount, discount }, page, size);
         return res.status(http_status_codes_1.StatusCodes.OK).json(new AppSuccess_1.default(http_status_codes_1.StatusCodes.OK, constants_1.default.PRODUCTS_FETCHED_SUCCESSFULLY, { products }));
     }
 }

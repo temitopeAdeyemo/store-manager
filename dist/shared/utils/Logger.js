@@ -15,8 +15,8 @@ const fileRotateTransport = new winston_1.transports.DailyRotateFile({
     maxFiles: '14d',
 });
 const systemLog = (userEmail) => {
-    if (userEmail)
-        fs_1.default.mkdir(__dirname + `logs/${userEmail}/exceptions.log`, (err) => {
+    if (userEmail && !fs_1.default.existsSync(`logs/${userEmail}/exceptions.log`))
+        fs_1.default.mkdir(`logs/${userEmail}/exceptions.log`, (err) => {
             err ? console.error(err) : null;
         });
     return (0, winston_1.createLogger)({
@@ -27,7 +27,7 @@ const systemLog = (userEmail) => {
         rejectionHandlers: [new winston_1.transports.File({ filename: userEmail ? `logs/${userEmail}/rejections.log` : 'logs/rejections.log' })],
     });
 };
-exports.systemLogs = systemLog();
+exports.systemLogs = systemLog;
 exports.morganMiddleware = (0, morgan_1.default)(function (tokens, req, res) {
     return JSON.stringify({
         method: tokens.method(req, res),

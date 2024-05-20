@@ -12,8 +12,8 @@ const fileRotateTransport = new transports.DailyRotateFile({
 });
 
 const systemLog = (userEmail?: string) => {
-  if (userEmail)
-    fs.mkdir(__dirname + `logs/${userEmail}/exceptions.log`, (err: NodeJS.ErrnoException | null) => {
+  if (userEmail && !fs.existsSync(`logs/${userEmail}/exceptions.log`))
+    fs.mkdir(`logs/${userEmail}/exceptions.log`, (err: NodeJS.ErrnoException | null) => {
       err ? console.error(err) : null;
     });
 
@@ -29,7 +29,7 @@ const systemLog = (userEmail?: string) => {
   });
 };
 
-export const systemLogs =  systemLog();
+export const systemLogs = systemLog;
 export const morganMiddleware = morgan(
   function (tokens, req, res) {
     return JSON.stringify({

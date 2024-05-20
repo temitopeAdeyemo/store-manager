@@ -61,7 +61,7 @@ export default async function rateLimiter(request: Request, response: Response, 
     if (request.headers['authorization'] && request.headers['authorization'].split(' ')[1]) {
       const jwtClient = new JwtClient();
       const user = jwtClient.verifyAccessToken(key);
-      systemLogs.warn('ERROR: Too many requests on path: ' + request.path + ' from: ' + user.email + '. Please try again later.');
+      systemLogs.bind(systemLogs)().warn('ERROR: Too many requests on path: ' + request.path + ' from: ' + user.email + '. Please try again later.');
     }
 
     throw new AppError(`System busy, Try again in a moment.`, 429);

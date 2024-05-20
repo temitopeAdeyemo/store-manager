@@ -9,6 +9,7 @@ const UserRepository_1 = __importDefault(require("../models/repositories/UserRep
 const PasswordHashService_1 = __importDefault(require("../../../shared/service/PasswordHashService"));
 const JWT_1 = __importDefault(require("../../../shared/service/JWT"));
 const constants_1 = __importDefault(require("../../../shared/utils/constants"));
+const Logger_1 = require("../../../shared/utils/Logger");
 class LoginUserService {
     constructor() {
         this.userRepository = new UserRepository_1.default();
@@ -24,6 +25,7 @@ class LoginUserService {
             throw new AppError_1.default(constants_1.default.INCORRECT_LOGIN_CREDENTIALS, http_status_codes_1.StatusCodes.UNAUTHORIZED);
         const accessToken = this.jwtClient.generateAccessToken({ id: emailExists._id, email: data.email });
         await this.userRepository.updateById(emailExists._id, { authorization_token: accessToken });
+        (0, Logger_1.systemLogs)(data.email).info("Logged in successfully.");
         return { access_token: accessToken };
     }
 }

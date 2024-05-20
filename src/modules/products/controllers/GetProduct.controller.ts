@@ -16,9 +16,9 @@ class GetProduct {
   }
 
   async fetchAll(req: Request<{}, {}, {}, fetchProductsFilter | any>, res: Response): Promise<Response> {
-    const { product_name, uploaded_by, category, amount, discount } = req.query;
+    const { product_name, uploaded_by, category, amount, discount, page, size } = req.query;
 
-    const products = await new GetProductService().fetchAll({ product_name, uploaded_by, category, amount, discount });
+    const products = await new GetProductService().fetchAll({ product_name, uploaded_by, category, amount, discount }, page, size);
 
     return res.status(StatusCodes.OK).json(new JsonResponse(StatusCodes.OK, constants.PRODUCTS_FETCHED_SUCCESSFULLY, { products }));
   }

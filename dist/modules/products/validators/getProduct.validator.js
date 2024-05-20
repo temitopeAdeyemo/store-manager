@@ -5,6 +5,8 @@ const celebrate_1 = require("celebrate");
 exports.getManyValidator = (0, celebrate_1.celebrate)({
     [celebrate_1.Segments.QUERY]: celebrate_1.Joi.object().keys({
         product_name: celebrate_1.Joi.string(),
+        page: celebrate_1.Joi.string(),
+        size: celebrate_1.Joi.string(),
         product_code: celebrate_1.Joi.string()
             .pattern(/^[A-Z][A-Z_\-]*[A-Z]$/)
             .message('product code can only be upper case letters, underscore and numbers'),

@@ -3,6 +3,8 @@ import { celebrate, Joi, Segments } from 'celebrate';
 export const getManyValidator = celebrate({
   [Segments.QUERY]: Joi.object().keys({
     product_name: Joi.string(),
+    page: Joi.string(),
+    size: Joi.string(),
     product_code: Joi.string()
       .pattern(/^[A-Z][A-Z_\-]*[A-Z]$/)
       .message('product code can only be upper case letters, underscore and numbers'),

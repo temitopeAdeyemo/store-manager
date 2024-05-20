@@ -21,8 +21,8 @@ class GetProductService {
         }
         return product._doc;
     }
-    async fetchAll(filter) {
-        const products = await this.productRepository.fetchAll(filter);
+    async fetchAll(filter, page, size) {
+        const products = await this.productRepository.fetchAll(filter, page, size);
         return products;
     }
 }

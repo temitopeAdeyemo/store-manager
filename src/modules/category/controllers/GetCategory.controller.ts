@@ -17,9 +17,9 @@ class GetCategory {
   }
 
   async fetchAll(req: Request<{}, {}, {}, fetchCategoriesFilter>, res: Response): Promise<Response> {
-    const { category_name, created_by } = req.query;
+    const { category_name, created_by, page, size } = req.query;
 
-    const categories = await new GetCategoryService().fetchAll({ category_name, created_by });
+    const categories = await new GetCategoryService().fetchAll({ category_name, created_by },  page, size );
 
     return res.status(StatusCodes.OK).json(new JsonResponse(StatusCodes.OK, constants.CATEGORIES_FETCHED_SUCCESSFULLY, {categories}));
   }

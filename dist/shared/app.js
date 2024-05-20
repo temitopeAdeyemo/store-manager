@@ -62,7 +62,7 @@ class App {
         const { port } = environments_config_1.default;
         this.app.listen(port, () => {
             console.log(`${chalk_1.default.green.bold('✓')} 👍 Server running on ${chalk_1.default.yellow.bold(process.env.NODE_ENV)} mode on port ${chalk_1.default.yellow.blue(port)}`);
-            Logger_1.systemLogs.info(`Server running on ${process.env.NODE_ENV} mode on port ${port}`);
+            Logger_1.systemLogs.bind(Logger_1.systemLogs)().info(`Server running on ${process.env.NODE_ENV} mode on port ${port}`);
         });
     }
 }

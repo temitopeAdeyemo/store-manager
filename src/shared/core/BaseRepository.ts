@@ -32,15 +32,26 @@ export default abstract class BaseRepository<SchemaModel, CreateDataDTO, E = ''>
     cleanObjectData(filter);
 
     const result = await this.model.findOne(filter).populate(populateData as string | string[]);
-    // if(result) result.
+
     return result;
   }
 
-  async fetchAll(data?: FilterQuery<SchemaModel>, populateData?: string | string[]) {
+  async fetchAll(data?: FilterQuery<SchemaModel>, page?: string | number, size?: string | number, populateData?: string | string[]) {
     const filter = data || {};
     cleanObjectData(filter);
+    console.log(page, size,);
 
-    const results = await this.model.find(filter).populate(populateData as string | string[]);
+    // page = page ? Number(page) : 1;
+    // size = size ? Number(size) : 5;
+
+    const results = await this.model
+      .find(filter)
+      .limit(Number(size) || 5)
+      .skip((Number(page) - 1) * Number(size))
+      .sort({
+        name: 'asc',
+      })
+      .populate(populateData as string | string[]);
 
     return results;
   }
