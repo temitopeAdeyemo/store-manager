@@ -14,22 +14,3 @@
 12. Include How rate limiter works in your readme
 13. Check all validation messages and correct regex pattern
 5. Note all above in documentation
-
-import { celebrate, Joi, Segments } from 'celebrate';
-
-export default celebrate({
-  [Segments.BODY]: Joi.object().keys({
-    category_name: Joi.string()
-      .pattern(/^[\w-]+$/)
-      .message('Name can only be numbers, letters, hyphens and underscores.')
-      .required(),
-    category_code: Joi.string()
-      .pattern(/^[A-Z][A-Z_\-]*[A-Z]$/)
-      .message('Code can only be upper case letters, underscore and numbers')
-      .required(),
-    discount: Joi.string().required(),
-    created_by: Joi.string()
-      .pattern(/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i)
-      .required(),
-  }),
-});

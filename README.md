@@ -1,30 +1,83 @@
-# Backend Engineer Test
+# Product Management Application
 
-Build a simple RESTful API to create and manage products in a store
+This application is a Node.js based service that manages products and implements token-based authentication. It supports functionalities such as registering and logging in of users, creating and managing products, and fetching products by the user who uploaded them. The application is containerized using Docker and includes a rate limiter to control traffic and enhance security against denial-of-service (DoS) attacks.
 
-## Authentication
+## Table of Contents
 
-Implement token-based authentication
+- [Getting Started](#getting-started)
+- [Installation](#installation)
+- [Docker](#docker)
+- [Unit Test](#docker)
+- [Rate Limiting](#rate-limiting)
 
-## Requirements
+## Getting Started
 
-1. Use NodeJS, Express, Typescript, MongoDB and any other libraries of your choice
-2. All endpoints must be fully documented on Postman
-3. Code must be unit tested
-4. API must be containerized using Docker
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
-## Evaluation Criteria
+### Prerequisites
 
-1. Database design - scalability and query efficiency
-2. Clean code - redundancy and documentation
-3. Code quality - use of best practices and efficient algorithms
-4. Error handling - Appropriate error codes and messages
-5. Security - Input validation and/or sanitization
+Make sure you have the following installed on your machine:
 
-## Submission
+- Node.js (v12.x or higher)
+- npm (v10.x or higher)
+- Docker
+- Docker Compose
+- Redis (Used with rate limiter)
 
-Reply with the following:
+### Installation
 
-1. Link to Github repository
-2. Link to live API
-3. Link to Postman documentation
+1. Clone the repository:
+
+   https://github.com/temitopeAdeyemo/store-manager.git
+   cd store-manager
+
+   ```
+
+   ```
+2. Install dependencies:
+
+   ```bash
+   npm i
+   ```
+
+## Usage
+
+To start the application in development mode:
+
+```bash
+  yarn start:dev
+```
+
+## Docker
+
+The application is containerized using Docker. To run the application in a Docker container:
+
+1. Ensure Docker is running on your machine.
+2. Navigate to the Docker directory:
+
+   ```bash
+    cd docker
+   ```
+3. Run the following command to build and start the containers:
+
+   ```bash
+   docker-compose up
+   ```
+
+   This will start the application along with any other services defined in the `docker-compose.yml` file. The application should then be running.
+
+## Unit Test
+
+The application is unit tested with jest. Test can be run using
+
+```bash
+    npm run test 
+```
+
+## Rate Limiting
+
+The application includes a rate limiter to control traffic and protect against denial-of-service (DoS) attacks. The rate limiter is configured using the following environment variables:
+
+The traffic rate is controlled depending on the endpoint, where traffics to endpoints that writes or modify data are more controlled.
+
+These settings help mitigate potential DoS attacks by limiting the number of requests a client can make in a specified time frame.
