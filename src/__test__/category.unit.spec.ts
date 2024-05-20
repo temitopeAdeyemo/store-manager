@@ -30,7 +30,7 @@ describe('Auth', () => {
       await TestGlobal.signUp();
 
       const response = await TestGlobal.createCategory();
-      // console.log("_______________________________________", response.body);
+
       const signInResponse = await TestGlobal.signIn();
       const { status, body } = await request(app)
         .get(`/api/v1/category/single?category_id=${response.body.data.id}`)
