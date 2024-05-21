@@ -68,9 +68,10 @@ The application is containerized using Docker. To run the application in a Docke
 
 ## Unit Test
 
-The application is unit tested with jest. Test can be run using
+The application is unit tested with jest. Test can be run using. (Connection to redis instance is needed for test to pass.). Run the following commands, leaving the redis local instance opened if you are connected to redis locally.
 
 ```bash
+    redis-server
     npm run test 
 ```
 
